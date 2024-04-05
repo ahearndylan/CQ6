@@ -1,0 +1,25 @@
+// Write your code here
+    
+    for (int i =1; i < n; i++){
+        int a = arr.get(i);
+        int j = i - 1;
+        
+        while (j >= 0 && arr.get(j) > a){
+            arr.set(j + 1, arr.get(j));
+            j = j - 1;
+        }
+        arr.set(j + 1, a);
+        
+        printArr(arr);
+    }
+
+    }
+    
+  public static void printArr(List<Integer> arr){
+    for (int num : arr){
+        System.out.print(num + " ");
+    }
+    System.out.println();
+}  
+
+}

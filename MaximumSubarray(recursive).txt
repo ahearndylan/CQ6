@@ -1,0 +1,47 @@
+// Write your code here
+    int listSize = arr.size();
+    int maxSumSubarray = findMaxSubarraySum(arr, 0, listSize - 1);
+    int maxSumSubsequence = findMaxSubsequenceSum(arr, 0, Integer.MIN_VALUE, false);
+    maxSumSubsequence = maxSumSubsequence == Integer.MIN_VALUE ? maxSumSubarray : maxSumSubsequence;
+    return List.of(maxSumSubarray, maxSumSubsequence);
+    }
+
+    private static int findMaxSubarraySum(List<Integer> arr, int start, int end) {
+        if (start == end) {
+            return arr.get(start);
+        }
+        int middle = start + (end - start) / 2;
+        int sumLeftPart = findMaxSubarraySum(arr, start, middle);
+        int sumRightPart = findMaxSubarraySum(arr, middle + 1, end);
+        int sumCrossing = calculateCrossingSum(arr, start, middle, end);
+        return Math.max(sumCrossing, Math.max(sumLeftPart, sumRightPart));
+    }
+
+    private static int calculateCrossingSum(List<Integer> arr, int start, int middle, int end) {
+        int tempSum = 0;
+        int maxLeftSum = Integer.MIN_VALUE;
+        for (int i = middle; i >= start; i--) {
+            tempSum += arr.get(i);
+            if (tempSum > maxLeftSum) {
+                maxLeftSum = tempSum;
+            }
+        }
+        tempSum = 0;
+        int maxRightSum = Integer.MIN_VALUE;
+        for (int i = middle + 1; i <= end; i++) {
+            tempSum += arr.get(i);
+            if (tempSum > maxRightSum) {
+                maxRightSum = tempSum;
+            }}
+        return maxLeftSum + maxRightSum;
+    }
+
+    private static int findMaxSubsequenceSum(List<Integer> arr, int currentPosition, int maxTillNow, boolean hasPositive) {
+        if (currentPosition == arr.size()) {
+            return hasPositive ? maxTillNow : Integer.MIN_VALUE;
+        }
+        int currentElement = arr.get(currentPosition);
+        int updatedMax = hasPositive ? Math.max(maxTillNow, 0) + Math.max(currentElement, 0) : Math.max(maxTillNow, currentElement);
+        return findMaxSubsequenceSum(arr, currentPosition + 1, updatedMax, hasPositive || currentElement > 0);
+    }
+}

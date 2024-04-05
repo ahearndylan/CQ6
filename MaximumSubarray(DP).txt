@@ -1,0 +1,26 @@
+// Write your code here
+        int maxEndingHere = arr.get(0), maxSoFar = arr.get(0);
+        int maxSubsequenceSum = arr.get(0) > 0 ? arr.get(0) : 0;
+        boolean allNegative = arr.get(0) > 0 ? false : true;
+        int maxNegative = arr.get(0); 
+        for (int i = 1; i < arr.size(); i++) {
+            int number = arr.get(i);
+            
+            maxEndingHere = Math.max(number, maxEndingHere + number);
+            maxSoFar = Math.max(maxSoFar, maxEndingHere);
+            
+            if (number > 0) {
+                maxSubsequenceSum += number;
+                allNegative = false;
+            }
+            
+            if (allNegative && number > maxNegative) {
+                maxNegative = number;
+            }}
+        
+        if (allNegative) {
+            maxSubsequenceSum = maxNegative;
+        }
+        return Arrays.asList(maxSoFar, maxSubsequenceSum);
+    }
+}
